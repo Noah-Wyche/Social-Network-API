@@ -1,7 +1,7 @@
 
 const express = require('express');
 const router = express.Router();
-const FriendController = require('../controllers/friendController');
+const FriendController = require('../../controllers/friendController');
 
 router.get('/', FriendController.getAllFriends);
 router.get('/:FriendId', FriendController.getFriendById);
