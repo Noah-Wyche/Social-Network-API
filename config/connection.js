@@ -1,16 +1,12 @@
-const mongoose = require('mongoose');
+// Imports
+const mongoose = require("mongoose");
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/social-network-db', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    });
-    console.log('MongoDB connected');
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-  }
-};
+// Creates database
+const connectionString =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/Social-Network-API";
 
-module.exports = connectDB;
+// Connects Mongoose and MongoDB
+mongoose.connect(connectionString);
+
+// Exports
+module.exports = mongoose.connection;

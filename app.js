@@ -1,27 +1,26 @@
-const express = require('express');
-const connectDB = require('./config/connection');
+// Importing required modules
+const express = require("express");
+const db = require("./config/connection");
+const routes = require("./routes");
 
-// Initialize Express app
+// Setting the current working directory
+const cwd = process.cwd();
+
+// Defining the port to listen on
+const PORT = process.env.PORT || 3001;
+
+// Creating an Express application instance
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
-// Middleware
-app.use(express.json()); // Middleware to parse JSON request bodies
-
-// Import and use routes
-const routes = require('./routes');
+// Middleware setup
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(routes);
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something went wrong!');
-});
-
-// Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Establishing database connection
+db.once("open", () => {
+  // Starting the server to listen for requests
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}`);
+  });
 });
